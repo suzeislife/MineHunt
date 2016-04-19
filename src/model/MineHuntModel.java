@@ -96,12 +96,12 @@ public class MineHuntModel implements MineHuntModelItf {
 				if (mineHunt[i][j].isMine()) {
 					countNeighborMine++;
 				}
-				if (j == col)
+				if (j == CONSTANTE.NBR_COL-1)
 					break;
 				j++;
 			}
 			j = 0;
-			if (i == row)
+			if (i == CONSTANTE.NBR_ROW-1)
 				break;
 			i++;
 		}
@@ -138,6 +138,7 @@ public class MineHuntModel implements MineHuntModelItf {
 		CellButton mine = mineHunt[row][col];
 		if (mine.isMine()) {
 			checkMine = true;
+			error++;
 		}
 		mine.setOpen(true);
 		return checkMine;

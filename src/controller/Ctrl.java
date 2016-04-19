@@ -18,18 +18,29 @@ public class Ctrl implements CtrlItf {
 	}
 
 	@Override
-	public void boutonClicked(CellButton cellB) {
+	public void boutonClicked(CellButton cellB, boolean rightClick) {
 		// System.out.println("col " + col + " row " + row);
 
 		if (!worker.isOpen(cellB.getRow(), cellB.getCol())) {
-			ihm.setImageButton(cellB, 2, 0);
-			if (worker.open(cellB.getRow(), cellB.getCol())) {
-				ihm.addError();
-				ihm.setImageButton(cellB, 0, 0);
+			if (rightClick) {
+				if (worker.isFlagged(cellB.getRow(), cellB.getCol())) {
+					ihm.setImageButton(cellB, 2, 0);
+					worker.setFlagState(cellB.getRow(), cellB.getCol(), false);
+				} else {
+					ihm.setImageButton(cellB, 1, 0);
+					worker.setFlagState(cellB.getRow(), cellB.getCol(), true);
+				}
 			} else {
-				ihm.setImageButton(cellB, 2, worker.neighborMines(cellB.getRow(), cellB.getCol()));
+				if (worker.open(cellB.getRow(), cellB.getCol())) {
+					ihm.setError(worker.errors());
+					ihm.setImageButton(cellB, 0, 0);
+				} else if (worker.isGameOver()) {
+					ihm.endGame(worker.errors());
+				} else
+					ihm.setImageButton(cellB, 3, worker.neighborMines(cellB.getRow(), cellB.getCol()));
+
+				ihm.addClick();
 			}
-			ihm.addClick();
 		}
 
 	}

@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -75,8 +76,11 @@ public class Ihm extends Application implements IhmItf {
 			for (int j = 0; j < CONSTANTE.NBR_ROW; j++) {
 				CellButton cellB = new CellButton(i, j);
 				cellB.setMinSize(40, 30);
-				cellB.setOnAction(event -> {
-					ctrl.boutonClicked(cellB);
+				cellB.setOnMouseClicked(event -> {
+					if (event.getButton() == MouseButton.SECONDARY)
+						ctrl.boutonClicked(cellB, true);
+					else
+						ctrl.boutonClicked(cellB, false);
 				});
 				grille.add(cellB, i, j);
 
@@ -102,12 +106,10 @@ public class Ihm extends Application implements IhmItf {
 		this.ctrl = ctrl;
 	}
 
-	@Override
-	public void addError() {
-		int nb = Integer.parseInt(errorCount.getText());
-		nb++;
-		errorCount.setText("" + nb);
-	}
+	/*
+	 * int nb = Integer.parseInt(errorCount.getText()); nb++;
+	 * errorCount.setText("" + nb);
+	 */
 
 	@Override
 	public void addClick() {
@@ -134,12 +136,41 @@ public class Ihm extends Application implements IhmItf {
 			flag.setFitHeight(20);
 			cellB.setGraphic(flag);
 		}
-		// blanc
+		// remove flag
+
 		else if (i == 2) {
+			cellB.setGraphic(null);
+		}
+		// blanc
+		else if (i == 3) {
+			cellB.setGraphic(null);
 			cellB.setText("" + nb);
 			cellB.setStyle("-fx-background-color: #fff27f");
 		}
 
+	}
+
+	@Override
+	public void setError(int errors) {
+		errorCount.setText("" + errors);
+
+	}
+
+	@Override
+	public void endGame(int errors) {
+		if (errors == 0) {
+			Alert dialog = new Alert(AlertType.INFORMATION);
+			dialog.setTitle("MineHunt - GameOver");
+			dialog.setHeaderText("Congratulation !");
+			dialog.setContentText("Congratulation !\n" + "Current game endes successfully (no error)");
+			dialog.showAndWait();
+		} else {
+			Alert dialogW = new Alert(AlertType.WARNING);
+			dialogW.setTitle("MineHunt - GameOver");
+			dialogW.setHeaderText(null); // No header
+			dialogW.setContentText("Caution : Low Level Battery !");
+			dialogW.showAndWait();
+		}
 	}
 
 }
