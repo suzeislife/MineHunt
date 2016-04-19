@@ -1,7 +1,9 @@
 package vue;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import bean.CellButton;
 import constante.CONSTANTE;
 import controller.Ctrl;
@@ -158,18 +160,17 @@ public class Ihm extends Application implements IhmItf {
 
 	@Override
 	public void endGame(int errors) {
+		Alert dialog = new Alert(AlertType.INFORMATION);
+		dialog.setTitle("MineHunt - GameOver");
+		dialog.setHeaderText("MineHunt");
 		if (errors == 0) {
-			Alert dialog = new Alert(AlertType.INFORMATION);
-			dialog.setTitle("MineHunt - GameOver");
-			dialog.setHeaderText("Congratulation !");
+			dialog.setAlertType(AlertType.INFORMATION);
 			dialog.setContentText("Congratulation !\n" + "Current game endes successfully (no error)");
 			dialog.showAndWait();
 		} else {
-			Alert dialogW = new Alert(AlertType.WARNING);
-			dialogW.setTitle("MineHunt - GameOver");
-			dialogW.setHeaderText(null); // No header
-			dialogW.setContentText("Caution : Low Level Battery !");
-			dialogW.showAndWait();
+			dialog.setAlertType(AlertType.WARNING);
+			dialog.setContentText("Current game ended with "+errors+ " errors");
+			dialog.showAndWait();
 		}
 	}
 
