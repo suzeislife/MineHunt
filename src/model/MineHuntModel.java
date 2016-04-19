@@ -5,7 +5,7 @@ import java.util.Random;
 import bean.CellButton;
 import constante.CONSTANTE;
 
-public class MineHuntModel implements MineHuntModelItf{
+public class MineHuntModel implements MineHuntModelItf {
 
 	private int numberRow;
 	private int numberCol;
@@ -17,31 +17,31 @@ public class MineHuntModel implements MineHuntModelItf{
 	private Random randomCol = new Random();
 
 	public MineHuntModel() {
-			// Default game
-			this.numberRow = CONSTANTE.NBR_ROW;
-			this.numberCol = CONSTANTE.NBR_COL;
-			this.minesNb = CONSTANTE.NBR_MINES;
-			mineHunt = new CellButton[numberRow][numberCol];
-			initNewGame(minesNb);
-		}
+		// Default game
+		this.numberRow = CONSTANTE.NBR_ROW;
+		this.numberCol = CONSTANTE.NBR_COL;
+		this.minesNb = CONSTANTE.NBR_MINES;
+		mineHunt = new CellButton[numberRow][numberCol];
+		initNewGame(minesNb);
+	}
 
 	public MineHuntModel(int minesNb, int numberRow, int numberCol) {
-			this.numberRow = numberRow;
-			this.numberCol = numberCol;
-			this.minesNb = minesNb;
-			mineHunt = new CellButton[numberRow][numberCol];
-			initNewGame(minesNb);
-		}
+		this.numberRow = numberRow;
+		this.numberCol = numberCol;
+		this.minesNb = minesNb;
+		mineHunt = new CellButton[numberRow][numberCol];
+		initNewGame(minesNb);
+	}
 
 	public MineHuntModel(CellButton[][] mineHunt) {
-			// Default game
-			this.numberRow = CONSTANTE.NBR_ROW;
-			this.numberCol = CONSTANTE.NBR_COL;
-			this.minesNb = CONSTANTE.NBR_MINES;
-			this.mineHunt = mineHunt;
-			// mineHunt = new Cell[numberRow][numberCol];
-			// initNewGame(minesNb);
-		}
+		// Default game
+		this.numberRow = CONSTANTE.NBR_ROW;
+		this.numberCol = CONSTANTE.NBR_COL;
+		this.minesNb = CONSTANTE.NBR_MINES;
+		this.mineHunt = mineHunt;
+		// mineHunt = new Cell[numberRow][numberCol];
+		// initNewGame(minesNb);
+	}
 
 	@Override
 	public void initNewGame(int minesNb) {
@@ -96,9 +96,13 @@ public class MineHuntModel implements MineHuntModelItf{
 				if (mineHunt[i][j].isMine()) {
 					countNeighborMine++;
 				}
+				if (j == col)
+					break;
 				j++;
 			}
 			j = 0;
+			if (i == row)
+				break;
 			i++;
 		}
 

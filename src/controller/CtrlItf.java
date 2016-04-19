@@ -1,7 +1,9 @@
 package controller;
 
+import bean.CellButton;
+
 public interface CtrlItf {
 
-	void boutonClicked(int col, int row);
+	void boutonClicked(CellButton cellB);
 
 }

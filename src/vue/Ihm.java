@@ -21,13 +21,13 @@ import javafx.stage.Stage;
 
 public class Ihm extends Application implements IhmItf {
 
-	private static final String TITLE = "vue/resources/minehunt.png";
-
 	private int clickNumber;
 	private int errorNumber;
 	private CtrlItf ctrl;
 	private VBox root = new VBox(20);
-	private ImageView title = new ImageView(TITLE);
+	private ImageView title = new ImageView(CONSTANTE.TITLE);
+	private ImageView mine;
+	private ImageView flag;
 	private HBox infoGame = new HBox(20);
 	private Label clickNb = new Label("Nb clicks:");
 	private Label clickCount = new Label("" + clickNumber);
@@ -74,9 +74,9 @@ public class Ihm extends Application implements IhmItf {
 		for (int i = 0; i < CONSTANTE.NBR_COL; i++) {
 			for (int j = 0; j < CONSTANTE.NBR_ROW; j++) {
 				CellButton cellB = new CellButton(i, j);
-				cellB.setMinSize(30, 30);
+				cellB.setMinSize(40, 30);
 				cellB.setOnAction(event -> {
-					ctrl.boutonClicked(cellB.getCol(), cellB.getRow());
+					ctrl.boutonClicked(cellB);
 				});
 				grille.add(cellB, i, j);
 
@@ -114,6 +114,32 @@ public class Ihm extends Application implements IhmItf {
 		int nb = Integer.parseInt(clickCount.getText());
 		nb++;
 		clickCount.setText("" + nb);
+	}
+
+	@Override
+	public void setImageButton(CellButton cellB, int i, int nb) {
+		// Error, mine
+		if (i == 0) {
+			mine = new ImageView(CONSTANTE.MINE);
+			mine.setFitWidth(20);
+			mine.setFitHeight(20);
+			cellB.setStyle("-fx-background-color: #FF3333");
+			cellB.setGraphic(mine);
+		}
+		// flag
+
+		else if (i == 1) {
+			flag = new ImageView(CONSTANTE.FLAG);
+			flag.setFitWidth(20);
+			flag.setFitHeight(20);
+			cellB.setGraphic(flag);
+		}
+		// blanc
+		else if (i == 2) {
+			cellB.setText("" + nb);
+			cellB.setStyle("-fx-background-color: #fff27f");
+		}
+
 	}
 
 }
